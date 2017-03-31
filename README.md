@@ -6,6 +6,7 @@
 Some  timings from testing - load 2 column table with no constraints/indexes:
 
 1.000.000 rows: 6 seconds = 166.666 rows/second
+
 5.000.000 rows: 28 seconds = 178.000 rows/second
 
 **How to get it**
