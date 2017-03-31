@@ -34,5 +34,7 @@ Sample usage of the API - the WriteToServer method also accepts a DataTable, an 
             }
         }
 
+[Online documentation](https://erikej.github.io/SqlCeBulkCopy/)
+
 [Offline documentation](https://github.com/ErikEJ/SqlCeBulkCopy/blob/master/doc/SqlCeBulkCopyDoc.1.1.zip)
 
