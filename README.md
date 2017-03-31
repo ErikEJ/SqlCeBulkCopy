@@ -10,15 +10,13 @@ Some  timings from testing - load 2 column table with no constraints/indexes:
 
 **How to get it**
 
-For use with SQL Server Compact 4.0, simply install the (NuGet package)[http://nuget.org/packages/ErikEJ.SqlCeBulkCopy]
+For use with SQL Server Compact 4.0, simply install the [NuGet package](http://nuget.org/packages/ErikEJ.SqlCeBulkCopy)
 
 The library also works with SQL Server Compact 3.5 and .NET Compact Framework (see Releases)
 
 **How to use it**
 
-
 Sample usage of the API - the WriteToServer method also accepts a DataTable, an IEnumerable or an IEnumerable<T>
-
 
         using ErikEJ.SqlCe;
 
@@ -36,4 +34,5 @@ Sample usage of the API - the WriteToServer method also accepts a DataTable, an 
             }
         }
 
-(Offline documentation)[ https://github.com/ErikEJ/SqlCeBulkCopy/blob/master/doc/SqlCeBulkCopyDoc.1.1.zip]
+[Offline documentation](https://github.com/ErikEJ/SqlCeBulkCopy/blob/master/doc/SqlCeBulkCopyDoc.1.1.zip)
+
