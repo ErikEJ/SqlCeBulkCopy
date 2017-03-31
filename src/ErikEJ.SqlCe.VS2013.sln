@@ -10,21 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salient.Data", "Salient.Data\Salient.Data.csproj", "{194B5823-39B6-4153-9B39-01189F8E3E4D}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs03
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ErikEJ.SqlCe.csproj
-		SccLocalPath1 = .
-		SccProjectUniqueName2 = ErikEJ.SqlCe40.csproj
-		SccLocalPath2 = .
-		SccProjectUniqueName3 = ErikEJ.Tests.Unit.csproj
-		SccLocalPath3 = .
-		SccProjectUniqueName4 = Salient.Data\\Salient.Data.csproj
-		SccProjectName4 = Salient.Data
-		SccLocalPath4 = Salient.Data
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
