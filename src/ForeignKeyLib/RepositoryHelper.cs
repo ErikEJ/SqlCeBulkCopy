@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ErikEJ.SqlCeScripting
+namespace ErikEJ.SqlCe.ForeignKeyLib
 {
-    public class RepositoryHelper
+    internal class RepositoryHelper
     {
         // Contrib from hugo on CodePlex - thanks!
         public static List<Constraint> GetGroupForeingKeys(List<Constraint> foreignKeys, List<string> allTables)

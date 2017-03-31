@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ErikEJ.SqlCe
 {
@@ -26,8 +24,8 @@ namespace ErikEJ.SqlCe
         /// <summary>
         /// Creates a new column mapping, using column ordinals to refer to source and destination columns. 
         /// </summary>
-        /// <param name="sourceColumnOrdinal"></param>
-        /// <param name="destinationOrdinal"></param>
+        /// <param name="sourceColumnIndex"></param>
+        /// <param name="destinationColumnIndex"></param>
         public SqlCeBulkCopyColumnMapping(int sourceColumnIndex, int destinationColumnIndex)
         {
             SourceOrdinal = sourceColumnIndex;
@@ -37,7 +35,7 @@ namespace ErikEJ.SqlCe
         /// <summary>
         /// Creates a new column mapping, using a column ordinal to refer to the source column and a column name for the target column. 
         /// </summary>
-        /// <param name="sourceColumnOrdinal"></param>
+        /// <param name="sourceColumnIndex"></param>
         /// <param name="destinationColumn"></param>
         public SqlCeBulkCopyColumnMapping(int sourceColumnIndex, string destinationColumn)
         {
@@ -49,7 +47,7 @@ namespace ErikEJ.SqlCe
         /// Creates a new column mapping, using a column name to refer to the source column and a column ordinal for the target column. 
         /// </summary>
         /// <param name="sourceColumn"></param>
-        /// <param name="destinationOrdinal"></param>
+        /// <param name="destinationColumnIndex"></param>
         public SqlCeBulkCopyColumnMapping(string sourceColumn, int destinationColumnIndex)
         {
             SourceColumn = sourceColumn;

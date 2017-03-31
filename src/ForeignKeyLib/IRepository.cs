@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ErikEJ.SqlCeScripting
+namespace ErikEJ.SqlCe.ForeignKeyLib
 {
 	public interface IRepository : IDisposable
 	{

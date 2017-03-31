@@ -4,6 +4,8 @@ using System.Data.SqlServerCe;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Collections;
+using ErikEJ.SqlCe.ForeignKeyLib;
+using Constraint = ErikEJ.SqlCe.ForeignKeyLib.Constraint;
 #if PocketPC
 #else
 using Salient.Data;
@@ -16,22 +18,22 @@ namespace ErikEJ.SqlCe
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ce")]
     public class SqlCeBulkCopy : IDisposable
     {
-        private static readonly Type DbNullType = typeof(System.DBNull);
+        private static readonly Type DbNullType = typeof(DBNull);
         private SqlCeBulkCopyColumnMappingCollection mappings = new SqlCeBulkCopyColumnMappingCollection();
-        private int notifyAfter;
-        private long autoIncNext;
-        private readonly SqlCeConnection conn;
-        private readonly SqlCeTransaction trans;
-        private readonly bool ownsConnection;
-        private bool ownsTransaction;
-        private readonly bool keepNulls;
-        private readonly bool keepIdentity;
-        private string destination;
-        private readonly SqlCeBulkCopyOptions options;
+        private int _notifyAfter;
+        private long _autoIncNext;
+        private readonly SqlCeConnection _conn;
+        private readonly SqlCeTransaction _trans;
+        private readonly bool _ownsConnection;
+        private bool _ownsTransaction;
+        private readonly bool _keepNulls;
+        private readonly bool _keepIdentity;
+        private string _destination;
+        private readonly SqlCeBulkCopyOptions _sqlCeBulkCopyOptions;
 #if PocketPC
 #else
-        private List<ErikEJ.SqlCeScripting.Constraint> savedConstraints;
-        private bool disableConstraints;
+        private List<Constraint> _savedConstraints;
+        private readonly bool _disableConstraints;
 #endif
         /// <summary>
         /// Initializes a new instance of the SqlCeBulkCopy class using the specified open instance of SqlCeConnection. 
@@ -39,7 +41,7 @@ namespace ErikEJ.SqlCe
         /// <param name="connection"></param>
         public SqlCeBulkCopy(SqlCeConnection connection)
         {
-            conn = connection;
+            _conn = connection;
         }
         /// <summary>
         /// Initializes a new instance of the SqlCeBulkCopy class using the specified open instance of SqlCeConnection and the specified active SqlCeTransaction.
@@ -48,8 +50,8 @@ namespace ErikEJ.SqlCe
         /// <param name="transaction"></param>
         public SqlCeBulkCopy(SqlCeConnection connection, SqlCeTransaction transaction)
         {
-            conn = connection;
-            trans = transaction;
+            _conn = connection;
+            _trans = transaction;
         }
 
         /// <summary>
@@ -59,13 +61,13 @@ namespace ErikEJ.SqlCe
         /// <param name="copyOptions"></param>
         public SqlCeBulkCopy(SqlCeConnection connection, SqlCeBulkCopyOptions copyOptions)
         {
-            conn = connection;
-            options = copyOptions;
-            keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
-            keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
+            _conn = connection;
+            _sqlCeBulkCopyOptions = copyOptions;
+            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
+            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
             #if PocketPC
 #else
-            disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
+            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
 #endif
         }
 
@@ -77,14 +79,14 @@ namespace ErikEJ.SqlCe
         /// <param name="copyOptions"></param>
         public SqlCeBulkCopy(SqlCeConnection connection, SqlCeBulkCopyOptions copyOptions, SqlCeTransaction transaction)
         {
-            conn = connection;
-            trans = transaction;
-            options = copyOptions;
-            keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
-            keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
+            _conn = connection;
+            _trans = transaction;
+            _sqlCeBulkCopyOptions = copyOptions;
+            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
+            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
 #if PocketPC
 #else
-            disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
+            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
 #endif
         }
 
@@ -94,8 +96,8 @@ namespace ErikEJ.SqlCe
         /// <param name="connectionString"></param>
         public SqlCeBulkCopy(string connectionString)
         {
-            conn = new SqlCeConnection(connectionString);
-            ownsConnection = true;
+            _conn = new SqlCeConnection(connectionString);
+            _ownsConnection = true;
         }
         /// <summary>
         /// Initializes a new instance of the SqlCeBulkCopy class, using the specified connection string and options
@@ -104,14 +106,14 @@ namespace ErikEJ.SqlCe
         /// <param name="copyOptions"></param>
         public SqlCeBulkCopy(string connectionString, SqlCeBulkCopyOptions copyOptions)
         {
-            conn = new SqlCeConnection(connectionString);
-            ownsConnection = true;
-            options = copyOptions;
-            keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
-            keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
+            _conn = new SqlCeConnection(connectionString);
+            _ownsConnection = true;
+            _sqlCeBulkCopyOptions = copyOptions;
+            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
+            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
                         #if PocketPC
 #else
-            disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
+            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
 #endif
         }
 
@@ -122,11 +124,11 @@ namespace ErikEJ.SqlCe
         {
             get
             {
-                return destination;
+                return _destination;
             }
             set
             {
-                destination = value;
+                _destination = value;
             }
         }
         /// <summary>
@@ -158,7 +160,7 @@ namespace ErikEJ.SqlCe
         {
             get
             {
-                return notifyAfter;
+                return _notifyAfter;
             }
             set
             {
@@ -166,7 +168,7 @@ namespace ErikEJ.SqlCe
                 {
                     throw new ArgumentOutOfRangeException("value", "Must be > 0");
                 }
-                notifyAfter = value;
+                _notifyAfter = value;
             }
         }
 
@@ -181,9 +183,9 @@ namespace ErikEJ.SqlCe
         /// </summary>
         public void Close()
         {
-            if (ownsConnection && conn != null)
+            if (_ownsConnection && _conn != null)
             {
-                conn.Dispose();
+                _conn.Dispose();
             }
         }
 
@@ -234,7 +236,7 @@ namespace ErikEJ.SqlCe
         /// <param name="collection">IEnumerable&lt;>. For IEnumerable use other constructor and specify type.</param>
         public void WriteToServer<T>(IEnumerable<T> collection)
         {
-            using (var reader = new Salient.Data.EnumerableDataReader(collection))
+            using (var reader = new EnumerableDataReader(collection))
             {
                 WriteToServer(new SqlCeBulkCopyDataReaderAdapter(reader));
             }
@@ -252,7 +254,7 @@ namespace ErikEJ.SqlCe
             {
                 throw new ArgumentNullException("collection");
             }
-            using (var reader = new Salient.Data.EnumerableDataReader(collection, elementType))
+            using (var reader = new EnumerableDataReader(collection, elementType))
             {
                 WriteToServer(new SqlCeBulkCopyDataReaderAdapter(reader));
             }
@@ -262,37 +264,37 @@ namespace ErikEJ.SqlCe
         {
             CheckDestination();
 
-            if (conn.State != ConnectionState.Open)
+            if (_conn.State != ConnectionState.Open)
             {
-                conn.Open();
+                _conn.Open();
             }
 
             GetAndDropConstraints();
 
-            List<KeyValuePair<int, int>> map = null;
+            List<KeyValuePair<int, int>> map;
             int totalRows = 0;
-			SqlCeTransaction localTrans = trans ?? conn.BeginTransaction();
+			SqlCeTransaction localTrans = _trans ?? _conn.BeginTransaction();
 
             if (ColumnMappings.Count > 0)
             {
                 //mapping are set, and should be validated
-                map = ColumnMappings.ValidateCollection(conn, localTrans, adapter, options, destination);
+                map = ColumnMappings.ValidateCollection(_conn, localTrans, adapter, _sqlCeBulkCopyOptions, _destination);
             }
             else
             {
                 //create default column mappings
-                map = SqlCeBulkCopyColumnMappingCollection.Create(conn, localTrans, adapter, options, destination);
+                map = SqlCeBulkCopyColumnMappingCollection.Create(_conn, localTrans, adapter, _sqlCeBulkCopyOptions, _destination);
             }
 
-            using (SqlCeCommand cmd = new SqlCeCommand(destination, conn, localTrans))
+            using (var cmd = new SqlCeCommand(_destination, _conn, localTrans))
             {
                 cmd.CommandType = CommandType.TableDirect;
-                using (SqlCeResultSet rs = cmd.ExecuteResultSet(ResultSetOptions.Updatable))
+                using (var rs = cmd.ExecuteResultSet(ResultSetOptions.Updatable))
                 {
-                    int idOrdinal = SqlCeBulkCopyTableHelpers.IdentityOrdinal(conn, localTrans, destination);
-                    SqlCeUpdatableRecord rec = rs.CreateRecord();
+                    var idOrdinal = SqlCeBulkCopyTableHelpers.IdentityOrdinal(_conn, localTrans, _destination);
+                    var rec = rs.CreateRecord();
 
-                    int rowCounter = 0;
+                    var rowCounter = 0;
                     IdInsertOn(localTrans, idOrdinal);
 
                     //Converting to an array removed the perf issue of a list and foreach statement.
@@ -303,14 +305,14 @@ namespace ErikEJ.SqlCe
                         if (adapter.SkipRow())
                             continue;
 
-                        for (int i = 0; i < cm.Length; i++)
+                        for (var i = 0; i < cm.Length; i++)
                         {
                             //caching the values this way do not cause a perf issue.
                             var sourceIndex = cm[i].Key;
                             var destIndex = cm[i].Value;
 
                             // Let the destination assign identity values
-                            if (!keepIdentity && destIndex == idOrdinal)
+                            if (!_keepIdentity && destIndex == idOrdinal)
                                 continue;
 
                             //determine if we should ever allow this in the map.
@@ -326,10 +328,10 @@ namespace ErikEJ.SqlCe
                             else
                             {
                                 //we can't write to an auto number column so continue
-                                if (keepNulls && destIndex == idOrdinal)
+                                if (_keepNulls && destIndex == idOrdinal)
                                     continue;
 
-                                if (keepNulls)
+                                if (_keepNulls)
                                 {
                                     rec.SetValue(destIndex, DBNull.Value);
                                 }
@@ -344,13 +346,13 @@ namespace ErikEJ.SqlCe
                         rowCounter++;
                         totalRows++;
                         rs.Insert(rec);
-                        if (RowsCopied != null && notifyAfter > 0 && rowCounter == notifyAfter)
+                        if (RowsCopied != null && _notifyAfter > 0 && rowCounter == _notifyAfter)
                         {
                             FireRowsCopiedEvent(totalRows);
                             rowCounter = 0;
                         }
                     }
-                    IdInsertOff(localTrans, idOrdinal, totalRows);
+                    IdInsertOff(localTrans, idOrdinal);
                     if (RowsCopied != null)
                     {
                         FireRowsCopiedEvent(totalRows);
@@ -359,7 +361,7 @@ namespace ErikEJ.SqlCe
             }
 
             //if we have our own transaction, we will commit it
-            if (trans == null)
+            if (_trans == null)
             {
                 localTrans.Commit(CommitMode.Immediate);
 				localTrans.Dispose();
@@ -370,21 +372,21 @@ namespace ErikEJ.SqlCe
 
         private void CheckDestination()
         {
-            if (string.IsNullOrEmpty(destination))
+            if (string.IsNullOrEmpty(_destination))
             {
                 throw new ArgumentException("DestinationTable not specified");
             }
-            ownsTransaction = (trans == null);
+            _ownsTransaction = (_trans == null);
         }
 
         private void GetAndDropConstraints()
         {
 #if PocketPC
 #else            
-            if (disableConstraints)
+            if (_disableConstraints)
             {
-                var fkRepo = new ErikEJ.SqlCeScripting.ForeignKeyRepository(conn.ConnectionString, destination);
-                savedConstraints = fkRepo.GetConstraints();
+                var fkRepo = new ForeignKeyRepository(_conn.ConnectionString, _destination);
+                _savedConstraints = fkRepo.GetConstraints();
                 fkRepo.DropConstraints();
             }
 #endif
@@ -394,42 +396,42 @@ namespace ErikEJ.SqlCe
         {
 #if PocketPC
 #else
-            var fkRepo = new ErikEJ.SqlCeScripting.ForeignKeyRepository(conn.ConnectionString, destination);
+            var fkRepo = new ForeignKeyRepository(_conn.ConnectionString, _destination);
             try
             {
-                if (disableConstraints)
+                if (_disableConstraints)
                 {
-                    fkRepo.AddConstraints(savedConstraints);
+                    fkRepo.AddConstraints(_savedConstraints);
                 }
             }
             catch (SqlCeException ex)
             { 
-                throw new Exception(ex.Message + Environment.NewLine + fkRepo.GetAddConstraintStatements(savedConstraints), ex);
+                throw new Exception(ex.Message + Environment.NewLine + fkRepo.GetAddConstraintStatements(_savedConstraints), ex);
             }
 #endif
         }
         
         private void IdInsertOn(SqlCeTransaction localTrans, int idOrdinal)
         {
-            if (keepIdentity && idOrdinal >= 0)
+            if (_keepIdentity && idOrdinal >= 0)
             {
-				using (var idCmd = AdoNetUtils.CreateCommand(conn, localTrans, string.Format(CultureInfo.InvariantCulture, "SET IDENTITY_INSERT [{0}] ON", DestinationTableName)))
+				using (var idCmd = AdoNetUtils.CreateCommand(_conn, localTrans, string.Format(CultureInfo.InvariantCulture, "SET IDENTITY_INSERT [{0}] ON", DestinationTableName)))
                 {
                     idCmd.ExecuteNonQuery();
                 }
-                if (trans == null)
+                if (_trans == null)
                 {
-                    autoIncNext = SqlCeBulkCopyTableHelpers.GetAutoIncNext(conn, DestinationTableName);
+                    _autoIncNext = SqlCeBulkCopyTableHelpers.GetAutoIncNext(_conn, DestinationTableName);
                 }
             }
         }
         
 
-        private void IdInsertOff(SqlCeTransaction localTrans, int idOrdinal, int totalRows)
+        private void IdInsertOff(SqlCeTransaction localTrans, int idOrdinal)
         {
-            if (keepIdentity && idOrdinal >= 0)
+            if (_keepIdentity && idOrdinal >= 0)
             {
-				using (var idCmd = AdoNetUtils.CreateCommand(conn, localTrans, string.Format(CultureInfo.InvariantCulture, "SET IDENTITY_INSERT [{0}] OFF", DestinationTableName)))
+				using (var idCmd = AdoNetUtils.CreateCommand(_conn, localTrans, string.Format(CultureInfo.InvariantCulture, "SET IDENTITY_INSERT [{0}] OFF", DestinationTableName)))
                 {
                     idCmd.ExecuteNonQuery();
                 }
@@ -441,25 +443,25 @@ namespace ErikEJ.SqlCe
             if (totalRows == 0)
                 return;
 
-            if (!keepIdentity)
+            if (!_keepIdentity)
                 return;
 
             //Cannot run re-seed when using user supplied transaction, so fail silently
-            if (keepIdentity && trans != null)
+            if (_keepIdentity && _trans != null)
             {
                 return;
             }
 
-            var newAutoIncNext = SqlCeBulkCopyTableHelpers.GetAutoIncNext(conn, DestinationTableName);
+            var newAutoIncNext = SqlCeBulkCopyTableHelpers.GetAutoIncNext(_conn, DestinationTableName);
 
-            if (autoIncNext != newAutoIncNext)
+            if (_autoIncNext != newAutoIncNext)
                 return;
             
-            using (var transact = conn.BeginTransaction())
+            using (var transact = _conn.BeginTransaction())
             {
                 // Get Identity column
                 string idCol = null;
-                using (var ainCmd = AdoNetUtils.CreateCommand(conn, transact, string.Format(CultureInfo.InvariantCulture,
+                using (var ainCmd = AdoNetUtils.CreateCommand(_conn, transact, string.Format(CultureInfo.InvariantCulture,
                     "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{0}' AND AUTOINC_INCREMENT IS NOT NULL", DestinationTableName)))
                 {
                     object res = ainCmd.ExecuteScalar();
@@ -473,7 +475,7 @@ namespace ErikEJ.SqlCe
 
                 // Get Max value if the column
                 long? maxVal = null;
-                using (var ainCmd = AdoNetUtils.CreateCommand(conn, transact, string.Format(CultureInfo.InvariantCulture,
+                using (var ainCmd = AdoNetUtils.CreateCommand(_conn, transact, string.Format(CultureInfo.InvariantCulture,
                     "SELECT CAST(MAX([{0}]) AS bigint) FROM [{1}]", idCol, DestinationTableName)))
                 {
                     object res = ainCmd.ExecuteScalar();
@@ -486,7 +488,7 @@ namespace ErikEJ.SqlCe
                     return;
 
                 //Reseed                    
-                using (var ainCmd = AdoNetUtils.CreateCommand(conn, transact, string.Format(CultureInfo.InvariantCulture,
+                using (var ainCmd = AdoNetUtils.CreateCommand(_conn, transact, string.Format(CultureInfo.InvariantCulture,
                     "ALTER TABLE [{0}] ALTER COLUMN [{1}] IDENTITY ({2},1);", DestinationTableName, idCol, maxVal + 1)))
                 {
                     ainCmd.ExecuteNonQuery();
@@ -511,7 +513,7 @@ namespace ErikEJ.SqlCe
 
         private bool IsCopyOption(SqlCeBulkCopyOptions copyOption)
         {
-            return ((options & copyOption) == copyOption);
+            return ((_sqlCeBulkCopyOptions & copyOption) == copyOption);
         }
 
         #region IDisposable Members
@@ -524,13 +526,13 @@ namespace ErikEJ.SqlCe
         {
             if (disposing)
             {
-                if (ownsConnection && conn != null)
+                if (_ownsConnection && _conn != null)
                 {
-                    conn.Dispose();
+                    _conn.Dispose();
                 }
-                if (ownsTransaction && trans != null)
+                if (_ownsTransaction && _trans != null)
                 {
-                    trans.Dispose();
+                    _trans.Dispose();
                 }
             }
         }

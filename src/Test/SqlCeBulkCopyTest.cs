@@ -8,6 +8,7 @@ using System.Data.SqlServerCe;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
+using ErikEJ.SqlCe.ForeignKeyLib;
 
 namespace ErikEJ.SqlCe
 {
@@ -504,7 +505,7 @@ namespace ErikEJ.SqlCe
 				bc.WriteToServer(GetTestInvoiceLineTable(connString));
 				sw.Stop();
 				Debug.WriteLine("Without constraints: " + sw.ElapsedMilliseconds);
-				var fkRepo = new SqlCeScripting.ForeignKeyRepository(connString, "InvoiceLine");
+				var fkRepo = new ForeignKeyRepository(connString, "InvoiceLine");
 				var savedConstraints = fkRepo.GetConstraints();
 				Assert.IsTrue(savedConstraints.Count == 2);
 			}

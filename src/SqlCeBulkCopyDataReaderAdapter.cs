@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Data;
 
 namespace ErikEJ.SqlCe
 {
     internal sealed class SqlCeBulkCopyDataReaderAdapter : ISqlCeBulkCopyInsertAdapter
     {
-        private readonly IDataReader _reader = null;
+        private readonly IDataReader _reader;
 
         public int FieldCount
         {

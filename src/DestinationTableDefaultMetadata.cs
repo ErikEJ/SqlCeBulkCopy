@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Data.SqlServerCe;
 using System.Globalization;
@@ -30,9 +29,9 @@ namespace ErikEJ.SqlCe
 
 		public DestinationTableDefaultMetadata(IDataReader reader)
 		{
-			this.ColumnName = (reader.GetString(0) ?? string.Empty).ToUpper(CultureInfo.InvariantCulture);
-			this.IsNullable = reader.GetString(1).Equals("YES", StringComparison.OrdinalIgnoreCase) ? true : false;
-			this.HasDefault = reader.GetBoolean(2);
+			ColumnName = (reader.GetString(0) ?? string.Empty).ToUpper(CultureInfo.InvariantCulture);
+			IsNullable = reader.GetString(1).Equals("YES", StringComparison.OrdinalIgnoreCase);
+			HasDefault = reader.GetBoolean(2);
 		}
 
 		public static List<DestinationTableDefaultMetadata> GetDataForTable(SqlCeConnection conn, SqlCeTransaction transaction, string tableName)

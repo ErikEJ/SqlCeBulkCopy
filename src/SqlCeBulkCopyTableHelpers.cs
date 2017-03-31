@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data.SqlServerCe;
+﻿using System.Data.SqlServerCe;
 using System.Globalization;
 
 namespace ErikEJ.SqlCe

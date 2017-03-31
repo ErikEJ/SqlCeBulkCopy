@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace ErikEJ.SqlCeScripting
+namespace ErikEJ.SqlCe.ForeignKeyLib
 {
     public class ColumnList : List<string>
     {

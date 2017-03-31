@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ErikEJ.SqlCe
 {
@@ -46,7 +44,5 @@ namespace ErikEJ.SqlCe
                 _abort = value;
             }
         }
-
     }
-
 }

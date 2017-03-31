@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlServerCe;
-using System.Collections;
 using System.Globalization;
 
 namespace ErikEJ.SqlCe
@@ -131,7 +129,7 @@ namespace ErikEJ.SqlCe
                 var sourceColumns = GetSourceColumns(adapter);
                 var destColumns = ToColumnNames(DestinationTableDefaultMetadata.GetDataForTable(conn, transaction, tableName));
 
-                foreach (SqlCeBulkCopyColumnMapping mapping in this.Items)
+                foreach (SqlCeBulkCopyColumnMapping mapping in Items)
                 {
                     var sourceColumnName = (mapping.SourceColumn ?? string.Empty).ToUpper(CultureInfo.InvariantCulture);
                     var destColumnName = (mapping.DestinationColumn ?? string.Empty).ToUpper(CultureInfo.InvariantCulture);

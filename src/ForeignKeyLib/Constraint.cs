@@ -1,4 +1,4 @@
-﻿namespace ErikEJ.SqlCeScripting
+﻿namespace ErikEJ.SqlCe.ForeignKeyLib
 {
     public class Constraint
     {

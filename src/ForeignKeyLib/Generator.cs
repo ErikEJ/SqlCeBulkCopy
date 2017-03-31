@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace ErikEJ.SqlCeScripting
+namespace ErikEJ.SqlCe.ForeignKeyLib
 {
     /// <summary>
     /// Class for generating scripts
@@ -11,12 +10,9 @@ namespace ErikEJ.SqlCeScripting
     public class Generator : IGenerator
     {
         private readonly StringBuilder _sbScript;
-        private readonly List<Constraint> _allForeignKeys;
-
-        public Generator(IRepository repository)
+        public Generator()
         {
 			_sbScript = new StringBuilder(10485760);
-			_allForeignKeys = repository.GetAllForeignKeys();
 		}
 
         public void GenerateForeignKey(Constraint constraint)

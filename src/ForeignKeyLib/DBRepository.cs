@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlServerCe;
 
-namespace ErikEJ.SqlCeScripting
+namespace ErikEJ.SqlCe.ForeignKeyLib
 {
-    public sealed class DBRepository : IRepository
+    internal class DbRepository : IRepository
     {
-        private SqlCeConnection cn;
+        private SqlCeConnection _cn;
         private delegate void AddToListDelegate<T>(ref List<T> list, SqlCeDataReader dr);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DBRepository"/> class.
+        /// Initializes a new instance of the <see cref="DbRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        public DBRepository(string connectionString)
+        public DbRepository(string connectionString)
         {
-            cn = new SqlCeConnection(connectionString);
-            cn.Open();
+            _cn = new SqlCeConnection(connectionString);
+            _cn.Open();
         }
 
         /// <summary>
@@ -23,10 +23,10 @@ namespace ErikEJ.SqlCeScripting
         /// </summary>
         public void Dispose()
         {
-            if (cn != null)
+            if (_cn != null)
             {
-                cn.Close();
-                cn = null;
+                _cn.Close();
+                _cn = null;
             }
         }
 
@@ -55,7 +55,7 @@ namespace ErikEJ.SqlCeScripting
         private List<T> ExecuteReader<T>(string commandText, AddToListDelegate<T> AddToListMethod)
         {
             List<T> list = new List<T>();
-            using (var cmd = new SqlCeCommand(commandText, cn))
+            using (var cmd = new SqlCeCommand(commandText, _cn))
             {
                 using (var dr = cmd.ExecuteReader())
                 {
@@ -124,7 +124,7 @@ namespace ErikEJ.SqlCeScripting
 		{
 			using (SqlCeCommand cmd = new SqlCeCommand())
 			{
-				cmd.Connection = cn;
+				cmd.Connection = _cn;
 				cmd.CommandText = sql;
 				cmd.ExecuteNonQuery();
 			}

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ErikEJ.SqlCe
+﻿namespace ErikEJ.SqlCe
 {
     /// <summary>
     /// Interface used by the adapters so we are able to remove the duplicate code.
