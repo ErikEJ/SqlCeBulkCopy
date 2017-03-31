@@ -12,7 +12,7 @@ Some  timings from testing - load 2 column table with no constraints/indexes:
 
 For use with SQL Server Compact 4.0, simply install the [NuGet package](http://nuget.org/packages/ErikEJ.SqlCeBulkCopy)
 
-The library also works with SQL Server Compact 3.5 and .NET Compact Framework (see Releases)
+The library also works with SQL Server Compact 3.5 and .NET Compact Framework [see Releases](https://github.com/ErikEJ/SqlCeBulkCopy/releases)
 
 **How to use it**
 
