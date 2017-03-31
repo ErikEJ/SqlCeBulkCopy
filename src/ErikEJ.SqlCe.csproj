@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5232B79A-A679-4010-B11D-472BAB9654D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ErikEJ.SqlCe</RootNamespace>
+    <AssemblyName>ErikEJ.SqlCe</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Debug\ErikEJ.SqlCe.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdoNetUtils.cs" />
+    <Compile Include="DestinationTableDefaultMetadata.cs" />
+    <Compile Include="ForeignKeyLib\ColumnList.cs" />
+    <Compile Include="ForeignKeyLib\Constraint.cs" />
+    <Compile Include="ForeignKeyLib\DBRepository.cs" />
+    <Compile Include="ForeignKeyLib\ForeignKeyRepository.cs" />
+    <Compile Include="ForeignKeyLib\Generator.cs" />
+    <Compile Include="ForeignKeyLib\IGenerator.cs" />
+    <Compile Include="ForeignKeyLib\IRepository.cs" />
+    <Compile Include="ForeignKeyLib\RepositoryHelper.cs" />
+    <Compile Include="ISqlCeBulkCopyInsertAdapter.cs" />
+    <Compile Include="SqlCeBulkCopy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlCeBulkCopyColumnMapping.cs" />
+    <Compile Include="SqlCeBulkCopyDataReaderAdapter.cs" />
+    <Compile Include="SqlCeBulkCopyDataTableAdapter.cs" />
+    <Compile Include="SqlCeBulkCopyMappingCollection.cs" />
+    <Compile Include="SqlCeBulkCopyOptions.cs" />
+    <Compile Include="SqlCeBulkCopyTableHelpers.cs" />
+    <Compile Include="SqlCeRowsCopiedEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Salient.Data\Salient.Data.csproj">
+      <Project>{194B5823-39B6-4153-9B39-01189F8E3E4D}</Project>
+      <Name>Salient.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

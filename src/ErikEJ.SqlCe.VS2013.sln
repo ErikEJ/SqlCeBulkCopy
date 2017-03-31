@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErikEJ.SqlCe", "ErikEJ.SqlCe.csproj", "{5232B79A-A679-4010-B11D-472BAB9654D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErikEJ.SqlCe40", "ErikEJ.SqlCe40.csproj", "{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErikEJ.Tests.Unit", "ErikEJ.Tests.Unit.csproj", "{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salient.Data", "Salient.Data\Salient.Data.csproj", "{194B5823-39B6-4153-9B39-01189F8E3E4D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs03
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ErikEJ.SqlCe.csproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = ErikEJ.SqlCe40.csproj
+		SccLocalPath2 = .
+		SccProjectUniqueName3 = ErikEJ.Tests.Unit.csproj
+		SccLocalPath3 = .
+		SccProjectUniqueName4 = Salient.Data\\Salient.Data.csproj
+		SccProjectName4 = Salient.Data
+		SccLocalPath4 = Salient.Data
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Debug|x64.Build.0 = Debug|Any CPU
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5232B79A-A679-4010-B11D-472BAB9654D4}.Release|x64.ActiveCfg = Release|Any CPU
+		{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CAE8E33-5B51-4D56-A92D-3FCBBE60F321}.Release|x64.ActiveCfg = Release|Any CPU
+		{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B005FD3-3C1E-4EA1-8C0F-0BE4C1F2AAE3}.Release|x64.ActiveCfg = Release|Any CPU
+		{194B5823-39B6-4153-9B39-01189F8E3E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{194B5823-39B6-4153-9B39-01189F8E3E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{194B5823-39B6-4153-9B39-01189F8E3E4D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{194B5823-39B6-4153-9B39-01189F8E3E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{194B5823-39B6-4153-9B39-01189F8E3E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{194B5823-39B6-4153-9B39-01189F8E3E4D}.Release|x64.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

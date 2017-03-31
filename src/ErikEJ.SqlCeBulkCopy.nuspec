@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>ErikEJ.SqlCeBulkCopy</id>
+    <version>2.1.6.10</version>
+    <authors>http://erikej.blogspot.com</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://sqlcebulkcopy.codeplex.com</projectUrl>
+    <licenseUrl>http://sqlcebulkcopy.codeplex.com/license</licenseUrl>
+    <description>.NET Library for loading data fast (doing bulk inserts) into a SQL Server Compact database file. Attempts to mimic the SqlClient SqlBulkCopy API.</description>
+    <releaseNotes>Added support for disabling foreign key constraints during bulk copy (DisableConstraints option). Fixed issue with bigint IDENTITY columns</releaseNotes>
+    <summary>.NET Library for loading data fast (doing bulk inserts) into a SQL Server Compact database file.</summary>
+    <language>en-US</language>
+    <tags>sql bulk insert load data sqlce bulkcopy</tags>
+    <dependencies>
+      <dependency id="Microsoft.SqlServer.Compact" version="4.0.8876.1" />
+    </dependencies>
+  </metadata>
+</package>

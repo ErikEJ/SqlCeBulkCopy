@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlCeBulkCopyCF", "SqlCeBulkCopyCF.csproj", "{847698DD-B61D-4C11-B77A-5590B63C7574}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlCEBulkCopyNETCF20", "SqlCEBulkCopyNETCF20.csproj", "{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{847698DD-B61D-4C11-B77A-5590B63C7574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847698DD-B61D-4C11-B77A-5590B63C7574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847698DD-B61D-4C11-B77A-5590B63C7574}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{847698DD-B61D-4C11-B77A-5590B63C7574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847698DD-B61D-4C11-B77A-5590B63C7574}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847698DD-B61D-4C11-B77A-5590B63C7574}.Release|x64.ActiveCfg = Release|Any CPU
+		{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A26BCDF9-9CE2-4F5F-B0FD-55C81ABE5D68}.Release|x64.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
