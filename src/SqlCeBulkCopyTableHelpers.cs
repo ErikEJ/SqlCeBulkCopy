@@ -35,10 +35,5 @@ namespace ErikEJ.SqlCe
                 return 0;
             }
         }
-
-        internal static bool IsCopyOption(SqlCeBulkCopyOptions options, SqlCeBulkCopyOptions copyOption)
-        {
-            return ((options & copyOption) == options);
-        }
     }
 }

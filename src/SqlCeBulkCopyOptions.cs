@@ -30,5 +30,9 @@ namespace ErikEJ.SqlCe
         /// Preserve null values in the destination table regardless of the settings for default values. When not specified, null values are replaced by default values where applicable.
         /// </summary>
         KeepNulls = 0x8,
+        /// <summary>
+        /// Ignore error 25016 - A duplicate value cannot be inserted into a unique index
+        /// </summary>
+        IgnoreDuplicateErrors = 0x16
     }
 }

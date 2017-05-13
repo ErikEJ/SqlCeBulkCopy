@@ -26,14 +26,14 @@ namespace ErikEJ.SqlCe
         private readonly SqlCeTransaction _trans;
         private readonly bool _ownsConnection;
         private bool _ownsTransaction;
-        private readonly bool _keepNulls;
-        private readonly bool _keepIdentity;
+        private bool _keepNulls;
+        private bool _keepIdentity;
+        private bool _ignoreDuplicateErrors;
         private string _destination;
-        private readonly SqlCeBulkCopyOptions _sqlCeBulkCopyOptions;
 #if PocketPC
 #else
         private List<Constraint> _savedConstraints;
-        private readonly bool _disableConstraints;
+        private bool _disableConstraints;
 #endif
         /// <summary>
         /// Initializes a new instance of the SqlCeBulkCopy class using the specified open instance of SqlCeConnection. 
@@ -62,13 +62,7 @@ namespace ErikEJ.SqlCe
         public SqlCeBulkCopy(SqlCeConnection connection, SqlCeBulkCopyOptions copyOptions)
         {
             _conn = connection;
-            _sqlCeBulkCopyOptions = copyOptions;
-            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
-            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
-            #if PocketPC
-#else
-            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
-#endif
+            SetOptions(copyOptions);
         }
 
         /// <summary>
@@ -81,13 +75,7 @@ namespace ErikEJ.SqlCe
         {
             _conn = connection;
             _trans = transaction;
-            _sqlCeBulkCopyOptions = copyOptions;
-            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
-            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
-#if PocketPC
-#else
-            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
-#endif
+            SetOptions(copyOptions);
         }
 
         /// <summary>
@@ -108,13 +96,7 @@ namespace ErikEJ.SqlCe
         {
             _conn = new SqlCeConnection(connectionString);
             _ownsConnection = true;
-            _sqlCeBulkCopyOptions = copyOptions;
-            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls);
-            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity);
-                        #if PocketPC
-#else
-            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints);
-#endif
+            SetOptions(copyOptions);
         }
 
         /// <summary>
@@ -260,6 +242,18 @@ namespace ErikEJ.SqlCe
             }
         }
 #endif
+
+        private void SetOptions(SqlCeBulkCopyOptions options)
+        {
+            _keepNulls = IsCopyOption(SqlCeBulkCopyOptions.KeepNulls, options);
+            _keepIdentity = IsCopyOption(SqlCeBulkCopyOptions.KeepIdentity, options);
+            _ignoreDuplicateErrors = IsCopyOption(SqlCeBulkCopyOptions.IgnoreDuplicateErrors, options);
+#if PocketPC
+#else
+            _disableConstraints = IsCopyOption(SqlCeBulkCopyOptions.DisableConstraints, options);
+#endif
+        }
+
         private void WriteToServer(ISqlCeBulkCopyInsertAdapter adapter)
         {
             CheckDestination();
@@ -278,12 +272,12 @@ namespace ErikEJ.SqlCe
             if (ColumnMappings.Count > 0)
             {
                 //mapping are set, and should be validated
-                map = ColumnMappings.ValidateCollection(_conn, localTrans, adapter, _sqlCeBulkCopyOptions, _destination);
+                map = ColumnMappings.ValidateCollection(_conn, localTrans, adapter, _keepNulls, _destination);
             }
             else
             {
                 //create default column mappings
-                map = SqlCeBulkCopyColumnMappingCollection.Create(_conn, localTrans, adapter, _sqlCeBulkCopyOptions, _destination);
+                map = SqlCeBulkCopyColumnMappingCollection.Create(_conn, localTrans, adapter, _keepNulls, _destination);
             }
 
             using (var cmd = new SqlCeCommand(_destination, _conn, localTrans))
@@ -340,12 +334,27 @@ namespace ErikEJ.SqlCe
                                     rec.SetDefault(destIndex);
                                 }
                             }
-                            // Fire event if needed
                             
                         }
                         rowCounter++;
                         totalRows++;
-                        rs.Insert(rec);
+                        try
+                        {
+                            rs.Insert(rec);
+                        }
+                        catch (SqlCeException ex)
+                        {
+                            if (ex.NativeError == 25016 && _ignoreDuplicateErrors) //A duplicate value cannot be inserted into a unique index.
+                            {
+                                System.Diagnostics.Trace.Write("Duplicate value error ignored");
+                                continue;
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                        // Fire event if needed
                         if (RowsCopied != null && _notifyAfter > 0 && rowCounter == _notifyAfter)
                         {
                             FireRowsCopiedEvent(totalRows);
@@ -511,9 +520,9 @@ namespace ErikEJ.SqlCe
             OnRowsCopied(args);
         }
 
-        private bool IsCopyOption(SqlCeBulkCopyOptions copyOption)
+        private bool IsCopyOption(SqlCeBulkCopyOptions copyOption, SqlCeBulkCopyOptions options)
         {
-            return ((_sqlCeBulkCopyOptions & copyOption) == copyOption);
+            return ((options & copyOption) == copyOption);
         }
 
         #region IDisposable Members
