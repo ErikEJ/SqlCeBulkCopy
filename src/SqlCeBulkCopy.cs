@@ -346,7 +346,7 @@ namespace ErikEJ.SqlCe
                         {
                             if (ex.NativeError == 25016 && _ignoreDuplicateErrors) //A duplicate value cannot be inserted into a unique index.
                             {
-                                System.Diagnostics.Trace.Write("Duplicate value error ignored");
+                                System.Diagnostics.Trace.TraceWarning("SqlCeBulkCopy: Duplicate value error was ignored");
                                 continue;
                             }
                             else

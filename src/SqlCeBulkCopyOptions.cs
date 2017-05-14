@@ -31,7 +31,7 @@ namespace ErikEJ.SqlCe
         /// </summary>
         KeepNulls = 0x8,
         /// <summary>
-        /// Ignore error 25016 - A duplicate value cannot be inserted into a unique index
+        /// Ignores error 25016 - A duplicate value cannot be inserted into a unique index
         /// </summary>
         IgnoreDuplicateErrors = 0x16
     }
