@@ -77,9 +77,8 @@ namespace ErikEJ.SqlCe
 
         #region other methods
 
-        internal static List<KeyValuePair<int, int>> Create(SqlCeConnection conn, SqlCeTransaction transaction, ISqlCeBulkCopyInsertAdapter adapter, SqlCeBulkCopyOptions copyOptions, string tableName)
+        internal static List<KeyValuePair<int, int>> Create(SqlCeConnection conn, SqlCeTransaction transaction, ISqlCeBulkCopyInsertAdapter adapter, bool keepNulls, string tableName)
         {
-            var keepNulls = SqlCeBulkCopyTableHelpers.IsCopyOption(SqlCeBulkCopyOptions.KeepNulls, copyOptions);
             var retVal = new List<KeyValuePair<int, int>>();
             //we use this to determine if we throw an error while building maps.
             int idOrdinal = SqlCeBulkCopyTableHelpers.IdentityOrdinal(conn, transaction, tableName);
@@ -121,7 +120,7 @@ namespace ErikEJ.SqlCe
             return retVal;
         }
 
-        internal List<KeyValuePair<int, int>> ValidateCollection(SqlCeConnection conn, SqlCeTransaction transaction, ISqlCeBulkCopyInsertAdapter adapter, SqlCeBulkCopyOptions copyOptions, string tableName)
+        internal List<KeyValuePair<int, int>> ValidateCollection(SqlCeConnection conn, SqlCeTransaction transaction, ISqlCeBulkCopyInsertAdapter adapter, bool keepNulls, string tableName)
         {
             if (Count > 0)
             {
@@ -133,8 +132,8 @@ namespace ErikEJ.SqlCe
                 {
                     var sourceColumnName = (mapping.SourceColumn ?? string.Empty).ToUpper(CultureInfo.InvariantCulture);
                     var destColumnName = (mapping.DestinationColumn ?? string.Empty).ToUpper(CultureInfo.InvariantCulture);
-                    int sourceIndex = -1;
-                    int destIndex = -1;
+                    int sourceIndex;
+                    int destIndex;
 
                     //verify if we have a source column name that it exists
                     if (!string.IsNullOrEmpty(sourceColumnName))
@@ -204,7 +203,7 @@ namespace ErikEJ.SqlCe
             }
             else
             {
-                return Create(conn, transaction, adapter, copyOptions, tableName);
+                return Create(conn, transaction, adapter, keepNulls, tableName);
             }
         }
 

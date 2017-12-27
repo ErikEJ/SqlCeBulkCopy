@@ -19,6 +19,7 @@ namespace ErikEJ.SqlCe
         {
             NoConstraints,
             FullConstraints,
+            FullConstraintsDuplicateRows,
             FullNoIdentity,
             DataReaderTest,
             DataReaderTestMapped,
@@ -55,6 +56,8 @@ namespace ErikEJ.SqlCe
             //RunDataTableTest(5000000, SchemaType.FullConstraints, false);
 
             RunDataTableTest(10000, SchemaType.FullConstraints, true);
+
+            RunDataTableTest(10000, SchemaType.FullConstraintsDuplicateRows, true);
 
             //RunDataTableTestNoKeepId(10000, SchemaType.FullNoIdentity, false);
         }
@@ -122,6 +125,10 @@ namespace ErikEJ.SqlCe
                     {
                         testTable.Rows.Add(new object[] { 4 + i, Guid.NewGuid().ToString() });
                     }
+                }
+                if (schemaType == SchemaType.FullConstraintsDuplicateRows)
+                {
+                    testTable.Rows.Add(new object[] { 4, Guid.NewGuid().ToString() });
                 }
                 RunBulkCopy(schemaType, keepNulls, testTable);
             }
@@ -236,15 +243,21 @@ namespace ErikEJ.SqlCe
                 case SchemaType.FullConstraints:
                     options = SqlCeBulkCopyOptions.KeepIdentity;
                     break;
-                default:
+                case SchemaType.FullConstraintsDuplicateRows:
+                    options = SqlCeBulkCopyOptions.KeepIdentity;
                     break;
             }
             if (keepNulls)
             {
-                options = options |= SqlCeBulkCopyOptions.KeepNulls;
+                 options = options |= SqlCeBulkCopyOptions.KeepNulls;
             }
-            
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            if (schemaType == SchemaType.FullConstraintsDuplicateRows)
+            {
+                options = options |= SqlCeBulkCopyOptions.IgnoreDuplicateErrors;
+            }
+
+            var sw = new Stopwatch();
             sw.Start();
             
             using (SqlCeBulkCopy bc = new SqlCeBulkCopy(connectionString, options))
@@ -285,6 +298,7 @@ namespace ErikEJ.SqlCe
 
                             break;
                         case SchemaType.FullConstraints:
+                        case SchemaType.FullConstraintsDuplicateRows:
                             cmd.CommandText = "CREATE TABLE [Shippers] ([ShipperID] int NOT NULL  IDENTITY (1,1), [CompanyName] nvarchar(40) NULL DEFAULT N'ABC');";
                             cmd.ExecuteNonQuery();
 

@@ -8,8 +8,7 @@ namespace ErikEJ.SqlCe
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ce")]
     public class SqlCeRowsCopiedEventArgs : EventArgs
     {
-        private long _rowsCopied;
-        private bool _abort;
+        private readonly long _rowsCopied;
 
         /// <summary>
         /// Represents the set of arguments passed to the SqlCeRowsCopiedEventHandler.
@@ -33,16 +32,6 @@ namespace ErikEJ.SqlCe
         /// <summary>
         /// Gets or sets a value that indicates whether the bulk copy operation should be aborted. 
         /// </summary>
-        public bool Abort
-        {
-            get
-            {
-                return _abort;
-            }
-            set
-            {
-                _abort = value;
-            }
-        }
+        public bool Abort { get; set; }
     }
 }
