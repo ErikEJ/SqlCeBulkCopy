@@ -361,7 +361,6 @@ namespace ErikEJ.SqlCe
                             {
                                 break;
                             }
-                            FireRowsCopiedEvent(totalRows);
                             rowCounter = 0;
                         }
                     }
