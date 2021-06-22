@@ -357,7 +357,10 @@ namespace ErikEJ.SqlCe
                         // Fire event if needed
                         if (RowsCopied != null && _notifyAfter > 0 && rowCounter == _notifyAfter)
                         {
-                            FireRowsCopiedEvent(totalRows);
+                            if (FireRowsCopiedEvent(totalRows).Abort)
+                            {
+                                break;
+                            }
                             rowCounter = 0;
                         }
                     }
@@ -514,10 +517,11 @@ namespace ErikEJ.SqlCe
             }
         }
 
-        private void FireRowsCopiedEvent(long rowsCopied)
+        private SqlCeRowsCopiedEventArgs FireRowsCopiedEvent(long rowsCopied)
         {
             SqlCeRowsCopiedEventArgs args = new SqlCeRowsCopiedEventArgs(rowsCopied);
             OnRowsCopied(args);
+            return args;
         }
 
         private bool IsCopyOption(SqlCeBulkCopyOptions copyOption, SqlCeBulkCopyOptions options)
